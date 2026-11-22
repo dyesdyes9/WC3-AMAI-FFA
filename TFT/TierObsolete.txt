@@ -1,0 +1,8 @@
+Unit	From tier	Max allowed	Comment
+GRUNT	3	2	//basic melee, replaced by taurens
+HEAD_HUNTER	3	4	//basic ranged, replaced by casters and air
+BERSERKER	3	4	//upgraded head hunter, same role
+FOOTMAN	3	0	//basic melee, replaced by knights
+RIFLEMAN	3	4	//basic ranged, replaced by gryphons and dragonhawks
+ARCHER	3	4	//basic ranged, allowance kept because hippogryph riders need archers
+HUNTRESS	3	2	//basic melee, replaced by druids of the claw and mountain giants

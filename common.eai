@@ -623,6 +623,8 @@ globals
     real array bl_tier_unitlock
     boolean array bl_tier_expansionblock
     boolean array bl_tier_lockactive
+    integer array obsolete_from_tier  // Tier from which a basic unit stops being produced, 0 means never
+    integer array obsolete_allowed  // How many of that unit may still be kept once the tier is reached
 
 	//==============================================================
     // (AMAI)  Standard Unit Variables
@@ -3431,6 +3433,10 @@ function InitArrays takes nothing returns nothing
   set hero_rush_bonus[u%1] = %16
   set adaptive_canonical[u%1] = u%1
 
+#ENDINCLUDE
+#INCLUDETABLE <$VER$\TierObsolete.txt> #EFR
+  set obsolete_from_tier[u%1] = %2
+  set obsolete_allowed[u%1] = %3
 #ENDINCLUDE
   //    call RLHashSet(o%1, %1)
   #INCLUDETABLE <$VER$\Strengths.txt>
@@ -10881,6 +10887,11 @@ endfunction
 function BlockListCheck takes integer qty, integer t returns integer
   local integer i = 0
   local integer max_qty = qty
+  // Basic units stop being replaced once their tier is superseded. Applied here so every
+  // caller agrees: the build queue, the adaptive counters and the reinforcement guard.
+  if obsolete_from_tier[t] > 0 and tier >= obsolete_from_tier[t] then
+    set max_qty = Min(max_qty, obsolete_allowed[t])
+  endif
   loop
     exitwhen i >= bl_length
     //if bl_allow_type[i] == t then

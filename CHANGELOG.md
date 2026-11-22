@@ -7,8 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Added
 
+- (internal) Added a `doc/` folder documenting how the AI decides its strategy, unit production, worker and expansion counts, and when it attacks, together with the settings that control each of them.
+- (internal) Documented a design for free-for-all play, covering why the shipped FFA strategy bonuses favoured low-tier mass armies, the arithmetic of strategy selection, and the behaviour changes still needed for expendable expansions, regrouping and target choice.
 - Water mines are rechecked during play and become land expansion options when a route opens, allowing the AI to use them without a Zeppelin.
 - (internal) AI logic can request pathing checks during play and read their results through the existing pathing thread, without starting extra threads or pausing other checks.
+
+### Changed
+
+- Computers stop replacing their basic units once they reach tier three. Grunts, Head Hunters, Berserkers, Footmen, Riflemen, Archers and Huntresses were rebuilt forever, because each strategy's tier-three list still asked for them and losses were replaced on sight. Each one now has a small cap taken from the new `TierObsolete.txt` table, so the population they used to occupy goes to Taurens, Knights, Druids, Chimaeras and the rest of the advanced army instead. A few are kept rather than none: Archers because Hippogryph Riders are built from them, and Head Hunters, Riflemen and Berserkers because they remain each race's cheapest answer to air. Undead Ghouls and Crypt Fiends are left alone, the first because they also cut lumber and the second because it is the race's only ground answer to air. Edit `TierObsolete.txt` to change the caps or the tier they apply from.
+- Reforged computers now pick armies suited to free-for-all games. Previously the free-for-all bonus rewarded only the mixed barracks-style strategies, so a Night Elf would commit to fifteen Huntresses and ten Archers even at tier three, and an Orc to masses of Grunts and Head Hunters. Each race's air, caster and tier-three strategies are now favoured instead, and the low-tier mass strategies are penalised: Night Elves lean towards Chimaeras, Hippogryphs, Druids and Dryads, Orcs towards Wyverns, Shamans and Taurens, Humans towards Gryphons, Dragonhawks and Sorceresses, and the Undead towards Frost Wyrms, Destroyers and Gargoyles. Siege-oriented strategies also gain a small bonus, since siege is what breaks a towered base. One-on-one and team games are unaffected, and every strategy stays reachable so computers of the same race still differ from each other.
 
 ### Fixed
 
